@@ -49,13 +49,23 @@ function drush_drupal_version($drupal_root = NULL) {
       else {
         // D7 stores VERSION in bootstrap.inc.
         // D6 and below does it in system.module.
-        $version_constant_paths = array('/includes/bootstrap.inc', '/modules/system/system.module');
+        $version_constant_paths = array(
+          '/includes/bootstrap.inc',
+          '/modules/system/system.module',
+          '/core/includes/bootstrap.inc'
+        );
         foreach ($version_constant_paths as $path) {
           if (file_exists($drupal_root . $path)) {
             require_once $drupal_root . $path;
             if (defined('VERSION')) {
               $version = VERSION;
               break;
+            }
+            else {
+              if (defined('BACKDROP_VERSION')) {
+                $version = BACKDROP_VERSION;
+                break;
+              }
             }
           }
         }
@@ -88,6 +98,7 @@ function drush_drupal_major_version($drupal_root = NULL) {
       $major_version = (integer)$version_parts[0];
     }
   }
+  if ($major_version == 1) {$major_version = 7; }
   return $major_version;
 }
 

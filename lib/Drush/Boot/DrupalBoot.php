@@ -250,6 +250,8 @@ abstract class DrupalBoot extends BaseBoot {
     $major_version = drush_drupal_major_version($drupal_root);
     drush_print_r($version);
     drush_print_r('geoff is the best');
+    //drush_print_r(drush_sql_get_class());
+    drush_print_r($major_version);
     if ($major_version != 1 && $major_version <= 5) {
       return drush_set_error('DRUSH_DRUPAL_VERSION_UNSUPPORTED', dt('Drush !drush_version does not support Drupal !major_version.', array('!drush_version' => DRUSH_VERSION, '!major_version' => $major_version)));
     }

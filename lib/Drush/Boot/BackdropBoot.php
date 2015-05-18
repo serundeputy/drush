@@ -49,9 +49,9 @@ class BackdropBoot extends DrupalBoot {
     return $core;
   }
 
-  function bootstrap_backdrop_database() {
-    backdrop_bootstrap(BACKDROP_BOOTSTRAP_DATABASE);
-    parent::bootstrap_backdrop_database();
+  function bootstrap_drupal_database() {
+    drupal_bootstrap(DRUPAL_BOOTSTRAP_DATABASE);
+    parent::bootstrap_drupal_database();
   }
 
   function bootstrap_backdrop_configuration() {
