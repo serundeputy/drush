@@ -280,7 +280,7 @@ abstract class DrupalBoot extends BaseBoot {
     // Load the config options from Drupal's /drush and sites/all/drush directories.
     drush_load_config('drupal');
 
-    $drupal_root = drush_set_context('DRUSH_DRUPAL_ROOT', drush_bootstrap_value('drupal_root'));
+    $drupal_root = drush_set_context('DRUSH_BACKDROP_ROOT', drush_bootstrap_value('backdrop_root'));
     chdir($drupal_root);
     $version = drush_drupal_version();
     $major_version = drush_drupal_major_version();

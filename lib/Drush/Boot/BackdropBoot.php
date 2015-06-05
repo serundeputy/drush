@@ -50,36 +50,39 @@ class BackdropBoot extends DrupalBoot {
   }
 
   function bootstrap_drupal_database() {
-    drupal_bootstrap(DRUPAL_BOOTSTRAP_DATABASE);
+    drupal_bootstrap(BACKDROP_BOOTSTRAP_DATABASE);
     parent::bootstrap_drupal_database();
   }
 
-  function bootstrap_backdrop_configuration() {
-    backdrop_bootstrap(BACKDROP_BOOTSTRAP_CONFIGURATION);
+  function bootstrap_drupal_configuration() {
+    /*$this->request = Request::createFromGlobals();
+    $classloader = drush_drupal_load_autoloader(BACKDROP_ROOT);
+    $this->kernel = DrupalKernel::createFromRequest($this->request, $classloader, 'prod');*/
+    drupal_bootstrap(BACKDROP_BOOTSTRAP_CONFIGURATION);
 
     // Unset backdrop error handler and restore drush's one.
     restore_error_handler();
 
-    parent::bootstrap_backdrop_configuration();
+    parent::bootstrap_drupal_configuration();
   }
 
-  function bootstrap_backdrop_full() {
+  function bootstrap_drupal_full() {
     if (!drush_get_context('DRUSH_QUIET', FALSE)) {
       ob_start();
     }
-    backdrop_bootstrap(BACKDROP_BOOTSTRAP_FULL);
+    drupal_bootstrap(DRUPAL_BOOTSTRAP_FULL);
     if (!drush_get_context('DRUSH_QUIET', FALSE)) {
       ob_end_clean();
     }
 
-    parent::bootstrap_backdrop_full();
+    parent::bootstrap_drupal_full();
   }
 
   /**
    * @param $command
    *   drush cli parameter, e.g. cache-clear
    */
-  function backdrop_drush_command_alter(&$command) {
+  /*function backdrop_drush_command_alter(&$command) {
     if ($command['command'] == 'drupal-major-version') {
       $command['command'] = 'backdrop-major-version';
       $command['command-hook'] = 'backdrop-major-version';
@@ -87,5 +90,5 @@ class BackdropBoot extends DrupalBoot {
       $command['arguments'] = array();
       drush_set_command($command);
     }
-  }
+  }*/
 }
