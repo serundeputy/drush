@@ -70,12 +70,51 @@ class BackdropBoot extends DrupalBoot {
     if (!drush_get_context('DRUSH_QUIET', FALSE)) {
       ob_start();
     }
-    drupal_bootstrap(DRUPAL_BOOTSTRAP_FULL);
+    drupal_bootstrap(BACKDROP_BOOTSTRAP_FULL);
     if (!drush_get_context('DRUSH_QUIET', FALSE)) {
       ob_end_clean();
     }
 
     parent::bootstrap_drupal_full();
+  }
+
+  /**
+   * Override for Backdrop bootstrap phases.
+   */
+  function bootstrap_phases() {
+    /*$phases = array(
+      //DRUSH_BOOTSTRAP_DRUSH                  => 'bootstrap_drush',
+      DRUSH_BACKDROP_BOOTSTRAP_CONFIGURATION,
+      DRUSH_BACKDROP_BOOTSTRAP_PAGE_CACHE   ,
+      DRUSH_BACKDROP_BOOTSTRAP_DATABASE     ,
+      // This has an additional include in c,
+      // so some additional work is expected,
+      DRUSH_BACKDROP_BOOTSTRAP_LOCK       ,
+      DRUSH_BACKDROP_BOOTSTRAP_VARIABLES    ,
+      // This has an additional include in c,
+      // so some additional work is expected,
+      //DRUSH_BACKDROP_BOOTSTRAP_SESSION    ,
+      DRUSH_BACKDROP_BOOTSTRAP_PAGE_HEADER  ,
+      DRUSH_BACKDROP_BOOTSTRAP_LANGUAGE     ,
+      DRUSH_BACKDROP_BOOTSTRAP_FULL         ,
+    );*/
+    $phases = array(
+        //DRUSH_BOOTSTRAP_DRUSH                  => 'bootstrap_drush',
+        DRUSH_BACKDROP_BOOTSTRAP_CONFIGURATION  => '_backdrop_bootstrap_configuration',
+        DRUSH_BACKDROP_BOOTSTRAP_PAGE_CACHE     => '_backdrop_bootstrap_page_cache',
+        DRUSH_BACKDROP_BOOTSTRAP_DATABASE       => '_backdrop_bootstrap_database',
+        // This has an additional include in core/includes/bootstrap.inc
+        // so some additional work is expected here.
+        //DRUSH_BACKDROP_BOOTSTRAP_LOCK           => 'lock_initialize',
+        DRUSH_BACKDROP_BOOTSTRAP_VARIABLES      => '_backdrop_bootstrap_variables',
+        // This has an additional include in core/includes/bootstrap.inc
+        // so some additional work is expected here.
+        //DRUSH_BACKDROP_BOOTSTRAP_SESSION        => 'backdrop_session_initialize',
+        DRUSH_BACKDROP_BOOTSTRAP_PAGE_HEADER    => '_backdrop_bootstrap_page_header',
+        DRUSH_BACKDROP_BOOTSTRAP_LANGUAGE       => 'backdrop_language_initialize',
+        DRUSH_BACKDROP_BOOTSTRAP_FULL           => '_backdrop_bootstrap_full',
+    );
+    return $phases;
   }
 
   /**
